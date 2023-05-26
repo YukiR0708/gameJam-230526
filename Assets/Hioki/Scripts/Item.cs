@@ -25,6 +25,8 @@ public class Item : MonoBehaviour
             {
                 playerItem.Star();
             }
+
+            Destroy(gameObject);
         }
     }
 }
