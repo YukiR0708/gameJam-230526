@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
         else if (_nowState == GameState.GameOver && _oldState == GameState.InGame)
         {
             GameOver();
+            SceneManager.LoadScene("Result");
         }
 
         _oldState = _nowState;
@@ -65,14 +66,14 @@ public class GameManager : MonoBehaviour
             _score += score;
         }
 
-        _scoreText.text = "Score:" + _score.ToString("D5");
+        _scoreText.text = "Score:" + _score.ToString("00000");
     }
 
     /// <summary> 残り時間を減らして表示するメソッド  </summary>
     private void Timer()
     {
         _nowTime -= Time.deltaTime;
-        _timerText.text = "Time:" + _nowTime.ToString("D5");
+        _timerText.text = "Time:" + _nowTime.ToString("00000");
         if (_nowTime <= 0f)
         {
             _nowState = GameState.GameOver;
