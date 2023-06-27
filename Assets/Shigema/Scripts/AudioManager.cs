@@ -17,7 +17,8 @@ public class AudioManager : MonoBehaviour
 
     public void BgmPlay(int index)
     {
-        _bgmAudioSouce.PlayOneShot(_bgm[index]);
+        _bgmAudioSouce.clip = _bgm[index];
+        _bgmAudioSouce.Play();
         _bgmAudioSouce.loop = true;
 
     }
