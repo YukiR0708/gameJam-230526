@@ -64,7 +64,7 @@ public class CaskController : MonoBehaviour
         //this.gameObject.layer = _layerMask;
         rb.velocity = Vector2.up * rb.velocity.y;
 
-        // ‘¼‚Ì
+        // ‘¼‚ÌŠÖ”‚Ìˆ—‚ğ—Dæ
         yield return new WaitForSeconds(0.5f); 
 
         this.gameObject.layer = 0;
