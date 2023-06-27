@@ -332,6 +332,7 @@ GameObject:
   - component: {fileID: 335820734}
   - component: {fileID: 335820738}
   - component: {fileID: 335820739}
+  - component: {fileID: 335820740}
   m_Layer: 0
   m_Name: player1
   m_TagString: Untagged
@@ -460,6 +461,7 @@ MonoBehaviour:
   _footPoint: {fileID: 1094372504}
   _rayLength: 10
   _ladderSpeed: 0
+  _anim: {fileID: 0}
 --- !u!114 &335820739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,6 +477,27 @@ MonoBehaviour:
   _canJamp: 0
   _jumpPower: 5
   _jumpTime: 0
+--- !u!95 &335820740
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335820733}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9ece865c5c7c04b47884f7d84ff9e3e3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &693228741
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,6 +1045,7 @@ MonoBehaviour:
   _footPoint: {fileID: 0}
   _rayLength: 0
   _ladderSpeed: 0
+  _anim: {fileID: 0}
 --- !u!212 &1741245880
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1161,6 +1185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39b55305f7b4ef748ae71290b524bf93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gm: {fileID: 0}
+  _am: {fileID: 0}
 --- !u!1001 &5346763837467368918
 PrefabInstance:
   m_ObjectHideFlags: 0
