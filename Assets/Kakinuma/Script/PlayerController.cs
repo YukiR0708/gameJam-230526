@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,10 +12,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("rayの長さ")] float _rayLength = 0f;
 
     public float _ladderSpeed; //移動速度(インスペクターから変更可)
-    private bool isLadder = false;
+    private bool _isLadder = false;
+    SpriteRenderer _spriteRenderer;
+    [SerializeField]Animator _anim;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); //Rigidbody2Dのインスタンスを取得
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -24,21 +29,40 @@ public class PlayerController : MonoBehaviour
         float verticalKey = Input.GetAxisRaw("Vertical");
         float xSpeed = 0;
         float ySpeed = 0;
+        //アニメーションを絶対値で設定する
+        _anim.SetFloat("Walk", MathF.Abs(horizontalKey));
         if (horizontalKey > 0) //右移動速度
         {
             //transform.localScale = new Vector3(1, 1, 1);
             xSpeed = speed;
+            _spriteRenderer.flipX = false;
         }
         if (horizontalKey < 0) //左移動速度
         {
             xSpeed = -speed;
+            _spriteRenderer.flipX = true;
         }
 
-        if (isLadder)
+        if (_isLadder)
         {
             if (verticalKey > 0)
             {
-                ySpeed = verticalKey * 0.15f;
+                //ySpeed = verticalKey * 0.15f;
+                //transform.Translate(Vector2.up * speed, Space.World);
+                rb.Sleep();
+                Transform _transform = this.transform;
+                Vector2 _pos = _transform.position;
+                _pos.y += 0.05f;
+                transform.position = new Vector2(this.transform.position.x, _pos.y);
+                _anim.SetBool("Up", true);
+                //transform.Translate(Vector2.up * Time.deltaTime, Space.World);
+
+                //Vector2    
+            }
+            else
+            {
+                rb.WakeUp();
+                _anim.SetBool("Up", false);
             }
         }
         //RaycastHit2D raycastHit2D = Physics2D.Raycast(_footPoint.transform.position, Vector2.right, _rayLength);
@@ -59,14 +83,14 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.tag == "LadderControll")
         {
-            isLadder = true;
+            _isLadder = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.tag == "LadderControll")
         {
-            isLadder = false;
+            _isLadder = false;
         }
     }
 }
