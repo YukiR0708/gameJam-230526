@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField, Tooltip("時間テキスト")] Text _timerText = default;
     [SerializeField, Tooltip("スコアテキスト")] Text _scoreText = default;
     [SerializeField, Tooltip("スコアのカンスト値")] float _maxScore = 100000;
-    [Tooltip("前フレームのステート")] GameState _oldState = GameState.InGame;
+    [Tooltip("前フレームのステート"),SerializeField] GameState _oldState = GameState.InGame;
     [Tooltip("クリア時の残り時間")] public static float _leftTime = 0f;
     public float LeftTime { get { return _leftTime; } }
 
@@ -24,9 +24,10 @@ public class GameManager : MonoBehaviour
         InGame, //ゲーム中
         Clear,  //クリア
         GameOver,   //ゲームオーバー
+        None,
     }
 
-    static GameState _nowState = GameState.InGame;
+    [SerializeField]  GameState _nowState = GameState.InGame;
     /// <summary> GameStateのプロパティ </summary>
     public GameState NowState { get => _nowState; set => _nowState = value; }
 
@@ -40,17 +41,18 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (_nowState == GameState.InGame)
+        if (_nowState == GameState.InGame && SceneManager.GetActiveScene().name == "Game")
         {
             Timer();
         }
-        else if (_nowState == GameState.Clear && _oldState == GameState.InGame)
+        if (_nowState == GameState.Clear && _oldState == GameState.InGame)
         {
             SceneManager.LoadScene("Result");
         }
-        else if (_nowState == GameState.GameOver && _oldState == GameState.InGame)
+       if (_nowState == GameState.GameOver && _oldState == GameState.InGame)
         {
-            GameOver();
+            _nowState = GameState.None;
+            Debug.Log("a");
             SceneManager.LoadScene("Result");
         }
 
