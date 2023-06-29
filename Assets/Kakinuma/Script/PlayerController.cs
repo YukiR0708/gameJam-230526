@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     private bool _isLadder = false;
     SpriteRenderer _spriteRenderer;
     [SerializeField] Animator _anim;
+
+    public float _LadderTime;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); //Rigidbody2Dのインスタンスを取得
@@ -50,13 +52,15 @@ public class PlayerController : MonoBehaviour
         {
             //ySpeed = verticalKey * 0.15f;
             //transform.Translate(Vector2.up * speed, Space.World);
-            xSpeed = 0;
+            //xSpeed = 0;
             rb.gravityScale = 0;
             Transform _transform = this.transform;
             Vector2 _pos = _transform.position;
-            _pos.y += 0.05f;
+            _pos.y += 0.01f;
             transform.position = new Vector2(this.transform.position.x, _pos.y);
             _anim.SetBool("Up", true);
+
+            _LadderTime++;
             //transform.Translate(Vector2.up * Time.deltaTime, Space.World);
 
             //Vector2    
@@ -65,6 +69,13 @@ public class PlayerController : MonoBehaviour
         if (verticalKey <= 0 && !_isLadder)
         {
             rb.gravityScale = 1;
+            _LadderTime = 0;
+        }
+
+        if (_LadderTime > 0)
+        {
+            xSpeed = 0;
+            _anim.SetBool("Up", true);
         }
 
         //RaycastHit2D raycastHit2D = Physics2D.Raycast(_footPoint.transform.position, Vector2.right, _rayLength);
