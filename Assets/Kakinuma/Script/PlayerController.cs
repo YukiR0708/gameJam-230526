@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public float _ladderSpeed; //移動速度(インスペクターから変更可)
     private bool _isLadder = false;
     SpriteRenderer _spriteRenderer;
-    [SerializeField]Animator _anim;
+    [SerializeField] Animator _anim;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); //Rigidbody2Dのインスタンスを取得
@@ -25,12 +25,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         float horizontalKey = Input.GetAxis("Horizontal");
         float verticalKey = Input.GetAxisRaw("Vertical");
         float xSpeed = 0;
         float ySpeed = 0;
         //アニメーションを絶対値で設定する
         _anim.SetFloat("Walk", MathF.Abs(horizontalKey));
+        _anim.SetBool("Up", verticalKey > 0 && _isLadder);
+        Debug.Log(verticalKey);
         if (horizontalKey > 0) //右移動速度
         {
             //transform.localScale = new Vector3(1, 1, 1);
@@ -43,28 +46,27 @@ public class PlayerController : MonoBehaviour
             _spriteRenderer.flipX = true;
         }
 
-        if (_isLadder)
+        if (verticalKey > 0 && _isLadder)
         {
-            if (verticalKey > 0)
-            {
-                //ySpeed = verticalKey * 0.15f;
-                //transform.Translate(Vector2.up * speed, Space.World);
-                rb.Sleep();
-                Transform _transform = this.transform;
-                Vector2 _pos = _transform.position;
-                _pos.y += 0.05f;
-                transform.position = new Vector2(this.transform.position.x, _pos.y);
-                _anim.SetBool("Up", true);
-                //transform.Translate(Vector2.up * Time.deltaTime, Space.World);
+            //ySpeed = verticalKey * 0.15f;
+            //transform.Translate(Vector2.up * speed, Space.World);
+            xSpeed = 0;
+            rb.gravityScale = 0;
+            Transform _transform = this.transform;
+            Vector2 _pos = _transform.position;
+            _pos.y += 0.05f;
+            transform.position = new Vector2(this.transform.position.x, _pos.y);
+            _anim.SetBool("Up", true);
+            //transform.Translate(Vector2.up * Time.deltaTime, Space.World);
 
-                //Vector2    
-            }
-            else
-            {
-                rb.WakeUp();
-                _anim.SetBool("Up", false);
-            }
+            //Vector2    
+
         }
+        if (verticalKey <= 0 && !_isLadder)
+        {
+            rb.gravityScale = 1;
+        }
+
         //RaycastHit2D raycastHit2D = Physics2D.Raycast(_footPoint.transform.position, Vector2.right, _rayLength);
         //Vector2 _playerUp = raycastHit2D.normal;
         //if(raycastHit2D.collider.gameObject.CompareTag("Slope"))
@@ -77,7 +79,7 @@ public class PlayerController : MonoBehaviour
         //{
         //    rb.velocity = new Vector2(xSpeed, rb.velocity.y); //速度最終結果(yはGravity Scale)
         //}
-        rb.velocity = new Vector2(xSpeed, rb.velocity.y+ySpeed); //速度最終結果(yはGravity Scale)
+        rb.velocity = new Vector2(xSpeed, rb.velocity.y); //速度最終結果(yはGravity Scale)
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -91,6 +93,7 @@ public class PlayerController : MonoBehaviour
         if (collision.tag == "LadderControll")
         {
             _isLadder = false;
+            rb.gravityScale = 1;
         }
     }
 }
