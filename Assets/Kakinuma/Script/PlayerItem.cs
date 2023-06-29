@@ -68,6 +68,7 @@ public class PlayerItem : MonoBehaviour
     {
         if (collision.gameObject.tag == "Toge" && !_isHammer && !_isStar)
         {
+            Debug.Log("gameover");
             _gm.GameOver();
         }
         else if (collision.gameObject.tag == "Toge" && (_isHammer || _isStar))

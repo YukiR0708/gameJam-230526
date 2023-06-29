@@ -11,7 +11,7 @@ public class LoadResult : MonoBehaviour
     void Start()
     {
         _bonusScore = _gm.LeftTime * _bonusAdd + _gm.Score;
-        _bonusText.text = "ボーナス" + _bonusScore.ToString("D5");
+        _bonusText.text = "ボーナス" + _bonusScore.ToString("00000");
     }
 
 }

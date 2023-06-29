@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary> トゲが落ちるかどうか判定するクラス  </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CircleCollider2D))]
 
@@ -59,17 +60,14 @@ public class CaskController : MonoBehaviour
         // 下に落ちる
 
         this.gameObject.layer = 7;
-
+        Debug.Log("レイヤー変更後　:　" + gameObject.layer);
 
         //this.gameObject.layer = _layerMask;
         rb.velocity = Vector2.up * rb.velocity.y;
 
         // 他の関数の処理を優先
-        yield return new WaitForSeconds(0.5f); 
+        yield return new WaitForSeconds(0.4f); 
 
         this.gameObject.layer = 0;
-
-
-        Debug.Log("レイヤー変更後　:　"  );
     }
 }

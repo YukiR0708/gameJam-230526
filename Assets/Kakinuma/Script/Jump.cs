@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Jump : MonoBehaviour
@@ -10,6 +11,7 @@ public class Jump : MonoBehaviour
     [SerializeField] public float _jumpTime = 0;
     Rigidbody2D rb = default;
     Animator _anim;
+    [SerializeField] List<BoxCollider2D> _colls = new();
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); //Rigidbody2Dのインスタンスを取得
@@ -27,6 +29,10 @@ public class Jump : MonoBehaviour
                 rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
                 _jumpTime++;
                 _canJamp = false;
+                foreach (var coll in _colls)
+                {
+                    coll.usedByEffector = false;
+                }
             }
 
         }
@@ -36,12 +42,16 @@ public class Jump : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) //ジャンプ
+    private void OnCollisionEnter2D(Collision2D collision) //着地
     {
         if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Slope")
         {
             _canJamp = true;
             _jumpTime = 0;
+            foreach (var coll in _colls)
+            {
+                coll.usedByEffector = true;
+            }
         }
         if (_jumpTime > 0)
         {
