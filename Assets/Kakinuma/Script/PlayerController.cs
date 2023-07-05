@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb = null;
     [SerializeField] GameObject _footPoint = default;
     [SerializeField, Tooltip("rayの長さ")] float _rayLength = 0f;
+    [SerializeField] GameManager _gm = default;
 
     public float _ladderSpeed; //移動速度(インスペクターから変更可)
     private bool _isLadder = false;
@@ -106,5 +107,10 @@ public class PlayerController : MonoBehaviour
             _isLadder = false;
             rb.gravityScale = 1;
         }
+        if (collision.tag == "Toge")
+        {
+            _gm.AddScore(10);
+        }
+
     }
 }
