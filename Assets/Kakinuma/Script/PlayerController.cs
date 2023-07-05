@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject _footPoint = default;
     [SerializeField, Tooltip("rayの長さ")] float _rayLength = 0f;
     [SerializeField] GameManager _gm = default;
+    Jump _jump = default;
 
     public float _ladderSpeed; //移動速度(インスペクターから変更可)
     private bool _isLadder = false;
@@ -23,23 +24,21 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>(); //Rigidbody2Dのインスタンスを取得
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _anim = GetComponent<Animator>();
+        _jump = GetComponentInChildren<Jump>();
     }
 
-    // Update is called once per frame
     void Update()
     {
 
         float horizontalKey = Input.GetAxis("Horizontal");
         float verticalKey = Input.GetAxisRaw("Vertical");
         float xSpeed = 0;
-        float ySpeed = 0;
         //アニメーションを絶対値で設定する
         _anim.SetFloat("Walk", MathF.Abs(horizontalKey));
-        _anim.SetBool("Up", verticalKey > 0 && _isLadder);
-        Debug.Log(verticalKey);
+        _anim.SetBool("Up", _LadderTime > 0);
+        //_anim.SetBool("Up", verticalKey != 0 && _isLadder);
         if (horizontalKey > 0) //右移動速度
         {
-            //transform.localScale = new Vector3(1, 1, 1);
             xSpeed = speed;
             _spriteRenderer.flipX = false;
         }
@@ -49,47 +48,39 @@ public class PlayerController : MonoBehaviour
             _spriteRenderer.flipX = true;
         }
 
-        if (verticalKey > 0 && _isLadder)
+        //はしごに触れてる
+        if (_isLadder)
         {
-            //ySpeed = verticalKey * 0.15f;
-            //transform.Translate(Vector2.up * speed, Space.World);
-            //xSpeed = 0;
-            rb.gravityScale = 0;
-            Transform _transform = this.transform;
-            Vector2 _pos = _transform.position;
-            _pos.y += 0.01f;
-            transform.position = new Vector2(this.transform.position.x, _pos.y);
-            _anim.SetBool("Up", true);
-
-            _LadderTime++;
-            //transform.Translate(Vector2.up * Time.deltaTime, Space.World);
-
-            //Vector2    
-
-        }
-        if (verticalKey <= 0 && !_isLadder)
-        {
-            rb.gravityScale = 1;
-            _LadderTime = 0;
-        }
-
-        if (_LadderTime > 0)
-        {
-            xSpeed = 0;
-            _anim.SetBool("Up", true);
+            //上下入力があるとき
+            if (verticalKey != 0)
+            {
+                rb.gravityScale = 0;
+                rb.velocity = Vector2.up * verticalKey;
+                _LadderTime++;
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+            }
+            //登ってる最中
+            if (0 < _LadderTime)
+            {
+                xSpeed = 0;
+                if (_jump.CanJamp)
+                {
+                    _jump.CanJamp = false;
+                }
+            }
+            if (verticalKey <= 0 && _jump.CanJamp)
+            {
+                rb.gravityScale = 1;
+            }
         }
 
-        //RaycastHit2D raycastHit2D = Physics2D.Raycast(_footPoint.transform.position, Vector2.right, _rayLength);
-        //Vector2 _playerUp = raycastHit2D.normal;
-        //if(raycastHit2D.collider.gameObject.CompareTag("Slope"))
+        ////はしごに触れてない　かつ　入力が↓かない
+        //if (verticalKey <= 0 && !_isLadder)
         //{
-        //    var temp = Vector3.ProjectOnPlane(Vector2.right, -_playerUp);
-        //    var _direction = new Vector2(temp.x, temp.y);
-        //    rb.velocity = _direction * xSpeed + Vector2.up * rb.velocity.y;
-        //}
-        //else
-        //{
-        //    rb.velocity = new Vector2(xSpeed, rb.velocity.y); //速度最終結果(yはGravity Scale)
+        //    rb.gravityScale = 1;
         //}
         rb.velocity = new Vector2(xSpeed, rb.velocity.y); //速度最終結果(yはGravity Scale)
     }
