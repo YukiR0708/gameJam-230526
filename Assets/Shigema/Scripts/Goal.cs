@@ -13,6 +13,4 @@ public class Goal : MonoBehaviour
             _gm.Clear();
         }
     }
-
-
 }

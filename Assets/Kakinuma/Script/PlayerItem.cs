@@ -74,6 +74,7 @@ public class PlayerItem : MonoBehaviour
         else if (collision.gameObject.tag == "Toge" && (_isHammer || _isStar))
         {
             _am.SePlay(1);
+            _gm.AddScore(20);
             Destroy(collision.gameObject);
         }
     }
