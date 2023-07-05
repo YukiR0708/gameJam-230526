@@ -7,7 +7,7 @@ public class Spawner : MonoBehaviour
     [SerializeField, Tooltip("生成するプレハブ")] GameObject _toge = default;
     [SerializeField, Tooltip("インターバル")] float _interval = 5f;
     /// <summary>何秒たったかカウント</summary>
-    float _timer = 0;
+    float _timer = int.MaxValue;
 
     void Update()
     {
