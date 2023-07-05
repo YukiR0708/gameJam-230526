@@ -12,7 +12,7 @@ public class Item : MonoBehaviour
         //PlayerItem‚ª‚Ô‚Â‚©‚Á‚½GameObject‚É‚Â‚¢‚Ä‚¢‚½
         if (collision.gameObject.TryGetComponent<PlayerItem>(out PlayerItem playerItem))
         {
-            AudioManager audioManager = collision.gameObject.GetComponent<AudioManager>();
+            AudioManager audioManager = FindObjectOfType<AudioManager>();
             audioManager.SePlay(2);
 
             //ƒnƒ“ƒ}[‚Ì
