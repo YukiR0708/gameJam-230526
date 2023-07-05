@@ -29,13 +29,13 @@
   * ファイルの削除  
   * 例：「[remove]*使用していなかった素材を整理*」
 
- ## 使用したアセット
- *UnityAssetStore
-  * (Free Pixel Space Platform Pack)[https://assetstore.unity.com/packages/2d/characters/free-pixel-space-platform-pack-146318]
-  * (Lidfar's Basics: Platformer)[https://assetstore.unity.com/packages/2d/textures-materials/lidfar-s-basics-platformer-111698]
-  * (Pixel Art Platformer - Village Props)[https://assetstore.unity.com/packages/2d/environments/pixel-art-platformer-village-props-166114]
-*SE・BGM
-  *(効果音ラボ)[https://soundeffect-lab.info/]
-  *(魔王魂)[https://maou.audio/]
-*フォント
-  *(ゆるもじ)[https://www.asterism-m.com/font/bmp-2byte/]
+ ## 使用したアセット  
+* UnityAssetStore  
+  * [Free Pixel Space Platform Pack](https://assetstore.unity.com/packages/2d/characters/free-pixel-space-platform-pack-146318)  
+  * [Lidfar's Basics: Platformer](https://assetstore.unity.com/packages/2d/textures-materials/lidfar-s-basics-platformer-111698)  
+  * [Pixel Art Platformer - Village Props](https://assetstore.unity.com/packages/2d/environments/pixel-art-platformer-village-props-166114)  
+* SE・BGM  
+  * [効果音ラボ](https://soundeffect-lab.info/)  
+  * [魔王魂](https://maou.audio/)  
+* フォント  
+  * [ゆるもじ](https://www.asterism-m.com/font/bmp-2byte/])  
