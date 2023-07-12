@@ -30,8 +30,8 @@ public class Jump : MonoBehaviour
             {
                 _anim.SetBool("Jump", true);
                 rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
-                _jumpTime++;
-                _canJamp = false;
+                //_jumpTime++;
+                //_canJamp = false;
                 foreach (var coll in _colls)
                 {
                     coll.usedByEffector = false;
@@ -49,23 +49,30 @@ public class Jump : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Slope")
         {
-            //if(_controller.verticalKey < 0f)
-            //{
-                //if (_controller._LadderTime > 0)
-                //{
-                //    _controller._LadderTime = 0;
-                //}
-            //}
             _canJamp = true;
-            _jumpTime = 0;
             foreach (var coll in _colls)
             {
                 coll.usedByEffector = true;
             }
         }
-        if (_jumpTime > 0)
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Slope")
         {
-            _canJamp = false;
+            _canJamp = true;
+            foreach (var coll in _colls)
+            {
+                coll.usedByEffector = true;
+            }
         }
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Slope")
+        {
+            _canJamp = false;
+        }    
+    }
+
 }
