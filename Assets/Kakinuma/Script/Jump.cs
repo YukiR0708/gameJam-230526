@@ -49,10 +49,13 @@ public class Jump : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Slope")
         {
-            if(_controller._LadderTime > 0)
-            {
-                _controller._LadderTime = 0;
-            }
+            //if(_controller.verticalKey < 0f)
+            //{
+                //if (_controller._LadderTime > 0)
+                //{
+                //    _controller._LadderTime = 0;
+                //}
+            //}
             _canJamp = true;
             _jumpTime = 0;
             foreach (var coll in _colls)

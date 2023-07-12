@@ -50,24 +50,25 @@ public class PlayerController : MonoBehaviour
         }
 
         //‚Í‚µ‚²‚ÉG‚ê‚Ä‚é
-        if (_isLadder)
+        if (_isLadder && _jump._jumpTime == 0)
         {
-            //ã‰º“ü—Í‚ª‚ ‚é‚Æ‚«
-            if (verticalKey > 0)
-            {
-                rb.gravityScale = 0;
-                rb.velocity = Vector2.up * verticalKey;
-                _LadderTime++;
-            }
-            else if (verticalKey < 0)
-            {
-                rb.gravityScale = 0;
-                rb.velocity = Vector2.up * verticalKey;
-                //_LadderTime = 0;
-            }
-            else
-            {
-                rb.velocity = Vector2.zero;
+                //ã‰º“ü—Í‚ª‚ ‚é‚Æ‚«
+                if (verticalKey > 0)
+                {
+                    rb.gravityScale = 0;
+                    rb.velocity = Vector2.up * verticalKey;
+                    _LadderTime++;
+                }
+                else if (verticalKey < 0)
+                {
+                    rb.gravityScale = 0;
+                    rb.velocity = Vector2.up * verticalKey;
+                    //_LadderTime = 0;
+                }
+                else if(0 < _LadderTime)
+                {
+                    rb.velocity = Vector2.zero;
+                }
             }
             //“o‚Á‚Ä‚éÅ’†
             if (0 < _LadderTime)
@@ -82,7 +83,7 @@ public class PlayerController : MonoBehaviour
             {
                 rb.gravityScale = 1;
             }
-        }
+        
 
         ////‚Í‚µ‚²‚ÉG‚ê‚Ä‚È‚¢@‚©‚Â@“ü—Í‚ª«‚©‚È‚¢
         //if (verticalKey <= 0 && !_isLadder)
@@ -119,6 +120,8 @@ public class PlayerController : MonoBehaviour
             {
                 _LadderTime = 0;
             }
+            _jump.CanJamp= true;
+
         }
     }
 }

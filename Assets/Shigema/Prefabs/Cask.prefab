@@ -138,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _ladderTag: Ladder
+  _groundTag: Ground
   _edgeTag: Edge
   _trPos: {x: 0, y: 0, z: 0}
   _minusPosY: 0.5
