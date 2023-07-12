@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Animator _anim;
 
     public float _LadderTime;
+    public float verticalKey;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); //Rigidbody2Dのインスタンスを取得
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
     {
 
         float horizontalKey = Input.GetAxis("Horizontal");
-        float verticalKey = Input.GetAxisRaw("Vertical");
+        verticalKey = Input.GetAxisRaw("Vertical");
         float xSpeed = 0;
         //アニメーションを絶対値で設定する
         _anim.SetFloat("Walk", MathF.Abs(horizontalKey));
@@ -52,11 +53,17 @@ public class PlayerController : MonoBehaviour
         if (_isLadder)
         {
             //上下入力があるとき
-            if (verticalKey != 0)
+            if (verticalKey > 0)
             {
                 rb.gravityScale = 0;
                 rb.velocity = Vector2.up * verticalKey;
                 _LadderTime++;
+            }
+            else if (verticalKey < 0)
+            {
+                rb.gravityScale = 0;
+                rb.velocity = Vector2.up * verticalKey;
+                //_LadderTime = 0;
             }
             else
             {
@@ -103,5 +110,15 @@ public class PlayerController : MonoBehaviour
             _gm.AddScore(10);
         }
 
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (verticalKey < 0 && collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Slope")
+        {
+            if (_LadderTime > 0)
+            {
+                _LadderTime = 0;
+            }
+        }
     }
 }
