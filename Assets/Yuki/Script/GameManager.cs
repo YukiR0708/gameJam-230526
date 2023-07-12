@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
         _nowState = GameState.InGame;
         _leftTime = _initialLimit;
         _nowTime = _initialLimit;
-        _score = 0;
     }
 
     void Update()
