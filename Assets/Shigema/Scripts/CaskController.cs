@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary> トゲが落ちるかどうか判定するクラス  </summary>
@@ -13,6 +14,7 @@ public class CaskController : MonoBehaviour
     Rigidbody2D rb;
     //[SerializeField, Header("タグ")] 
     [SerializeField, Tooltip("梯子のタグの名前 (Ladder)")] string _ladderTag;
+    [SerializeField, Tooltip("地面のタグの名前 (Ground)")] string _groundTag;
     [SerializeField, Tooltip("端のタグの名前 (Edge)")] string _edgeTag;
     [SerializeField, Tooltip("下に瞬間移動（コライダ通り抜けられる）")] Vector3 _trPos;
     [SerializeField, Tooltip("どれくらい下に移動させるか(正数で良い)")] float _minusPosY;
@@ -53,6 +55,13 @@ public class CaskController : MonoBehaviour
             }
             Debug.Log("Ladder");
         }
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == _groundTag) Destroy(gameObject);
+
     }
 
     IEnumerator ChangePos()
