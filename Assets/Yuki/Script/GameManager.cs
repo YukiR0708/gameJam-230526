@@ -8,7 +8,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField, Tooltip("現在のスコア")] static int _score = 0;
-    public int Score { get => _score; set => value = _score; }
+    public  int Score { get { return _score; } }
+
     [SerializeField, Tooltip("制限時間(初期設定)")] float _initialLimit = 0f;
     [SerializeField, Tooltip("現在の残り時間")] float _nowTime = 0f;
     [SerializeField, Tooltip("時間テキスト")] Text _timerText = default;
@@ -34,8 +35,12 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         _nowState = GameState.InGame;
-        _leftTime = _initialLimit;
+    }
+
+    private void Start()
+    {
         _nowTime = _initialLimit;
+        _scoreText.text = "Score:" + _score.ToString("00000");
     }
 
     void Update()
@@ -84,6 +89,7 @@ public class GameManager : MonoBehaviour
     /// <summary> ゲームオーバーにするメソッド  </summary>
     public void GameOver()
     {
+        _leftTime = _nowTime;
         _nowState = GameState.GameOver;
     }
 
@@ -91,7 +97,6 @@ public class GameManager : MonoBehaviour
     public void Clear()
     {
         _leftTime = _nowTime;
-
         _nowState = GameState.Clear;
     }
 
